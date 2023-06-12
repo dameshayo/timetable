@@ -18,7 +18,7 @@ router.get("/:type/:programme",(req,res)=>{
 
                 const table=$(".table");
             
-                console.log(table.find("tbody tr").length);
+               
               for(let row=0;row<table.find("tbody tr").length;row++){
                    const day=$($(table.find("tbody tr")[row]).find("td")[0]).text();
                    
@@ -48,6 +48,8 @@ router.get("/:type/:programme",(req,res)=>{
                             });
             
                             if(sessionArray.length>6){
+                            //    console.log(sessionArray);
+                            
                                 sessionArray[0]=sessionArray[0];
                                 sessionArray[1]=sessionArray[1];
                               
@@ -57,7 +59,7 @@ router.get("/:type/:programme",(req,res)=>{
                                 sessionArray[4]="Lecture";
                                 sessionArray[2]="";
                                
-                                // console.log(sessionArray);
+                               
                             }
                             // sessionArray[1]=sessionArray[1].split(":")[1];
                             // sessionArray[2]=sessionArray[2].split(":")[1];
@@ -78,13 +80,27 @@ router.get("/:type/:programme",(req,res)=>{
                             sessions.push(json2);
                         }
                        }
-                       let obj={[`${day.replace(/\\/g, "")}`]:sessions};
+                       let obj={[`${day}`]:sessions};
                    
                        json.push(obj);
                    }
               
                 }
-                res.json({"msg":"success","programme":title.replaceAll(/\\/g,""),"data":json});
+
+                const description=$("table:not(.table) tbody tr");
+                const descriptions=[];
+                for(let desc=0;desc<description.length;desc++){
+                    let td=$(description[desc]);
+                    let course=$(td.find("td")[1]).text();
+                    let descript=$(td.find("td")[2]).text();
+                    const obj2={
+                        course:course,
+                        description:descript
+                    }
+                    descriptions.push(obj2);
+                }
+              
+                res.json({"msg":"success","programme":title.replaceAll(/\\/g,""),"data":json,"descriptions":descriptions});
             }).catch((error) => {
                 res.json({"msg":"fail to load table"});
                 console.error({ error });
@@ -94,11 +110,7 @@ router.get("/:type/:programme",(req,res)=>{
              console.log(error)
          }
 
-     
        
-    
-   
-    
 });
 
 module.exports=router;
