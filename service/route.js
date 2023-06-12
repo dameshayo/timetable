@@ -75,12 +75,12 @@ router.get("/:type/:programme",(req,res)=>{
                                 sessionType:sessionArray[4],
                                 course:sessionArray[5],
                             }
-                            sessions.push(JSON.stringify(json2));
+                            sessions.push(json2);
                         }
                        }
                        let obj={[`${day.replace(/\\/g, "")}`]:sessions};
                    
-                       json.push(JSON.stringify(obj));
+                       json.push(obj);
                    }
               
                 }
