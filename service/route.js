@@ -5,6 +5,7 @@ const cheerio=require("cheerio")
 function containsNumbers(str) {
     return /\d/.test(str);
   }
+
 router.get("/:type/:programme",(req,res)=>{
     let type=req.params.type;
     let programe=req.params.programme;
@@ -112,5 +113,41 @@ router.get("/:type/:programme",(req,res)=>{
 
        
 });
+
+router.get("semesters/:year",(req,res)=>{
+    year=req.params.year;
+    try {
+        axios.get(`https://ratiba.udom.ac.tz/index.php/downloads/fetch-semesters?_csrf-backend=zB-cS_yxG2p4CUZwu1IvGMzP4Efn1rOqXtr2TAOdI1a5TKQJjMVXIj9-D0D8NFh8lY6hGLGAi-Jtl8UJcPtFDA%3D%3D&year=${year}&semester=&type=&option=&data%5B%5D=`).then((semesters)=>{
+            const $=cheerio.load(semesters.data);
+            text=$($("option")[1]).val()
+
+           console.log(text)
+           res.json({"status":true,"msg":"Success","value":text})
+        });
+    } catch (error) {
+        res.json({"status":false,"msg":"fail to load semesters"})
+        console.log("An error occurred")
+    }
+})
+router.get("programmes/:year/:semester",(req,res)=>{
+    year=req.params.year;
+    semester=req.params.semester;
+    try{
+      axios.get(`
+      https://ratiba.udom.ac.tz/index.php/downloads/data?_csrf-backend=zB-cS_yxG2p4CUZwu1IvGMzP4Efn1rOqXtr2TAOdI1a5TKQJjMVXIj9-D0D8NFh8lY6hGLGAi-Jtl8UJcPtFDA%3D%3D&year=${year}&semester=${semester}&type=1&option=programme&data%5B%5D=`).then((programmes)=>{
+        const $=cheerio.load(programmes.data);
+        const converted=$("select").find("option").map((index, element)=> {
+           
+           return {"name":String($(element).text().split("-")[0]).trim(),"value":$(element).val(),"college":String($(element).text().split("-")[1]).trim(),"year":String($(element).text().split("-")[0]).trim().charAt(String($(element).text().split("-")[0]).trim().length-1)}
+        
+        }).get()
+        res.json({"status":true,"message":"Success load programmes","programmes":converted.filter((item)=>item.value!="")})
+      });
+    }
+    catch (error){
+        res.json({"status":false,"message":"fail to load programmes","programmes":null})
+    }
+})
+
 
 module.exports=router;
