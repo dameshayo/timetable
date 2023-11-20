@@ -114,7 +114,7 @@ router.get("/:type/:programme",(req,res)=>{
        
 });
 
-router.get("/semesters/:year",(req,res)=>{
+router.get("get_semesters/semesters/:year",(req,res)=>{
     year=req.params.year;
     try {
         axios.get(`https://ratiba.udom.ac.tz/index.php/downloads/fetch-semesters?_csrf-backend=zB-cS_yxG2p4CUZwu1IvGMzP4Efn1rOqXtr2TAOdI1a5TKQJjMVXIj9-D0D8NFh8lY6hGLGAi-Jtl8UJcPtFDA%3D%3D&year=${year}&semester=&type=&option=&data%5B%5D=`).then((semesters)=>{
