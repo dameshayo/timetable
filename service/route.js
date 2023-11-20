@@ -126,7 +126,7 @@ router.get("/semesters/:year",(req,res)=>{
         });
     } catch (error) {
         res.json({"status":false,"msg":"fail to load semesters"})
-        console.log("An error occurred")
+        console.log("An error occurred yap")
     }
 })
 router.get("/programmes/:year/:semester",(req,res)=>{
