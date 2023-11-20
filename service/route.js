@@ -6,12 +6,14 @@ function containsNumbers(str) {
     return /\d/.test(str);
   }
 
-router.get("/:type/:programme",(req,res)=>{
+router.get("/:type/:programme/:semester/:year",(req,res)=>{
     let type=req.params.type;
     let programe=req.params.programme;
+    let semester=req.params.semester;
+    let year=req.params.year;
         const json=[];
          try {
-            axios.get(`https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=80ueMJpmytnu8E8p1kHI_xWXxsqsi0J9Ka_ISYhOFHOgI9lvxV-6vN_dLGv7BLuYVqaZ-57dBFBKyqAY4g1NPw%3D%3D&year=9&semester=3352&type=${type}&option=programme&data=${programe}`).then((timetable)=>{
+            axios.get(`https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=80ueMJpmytnu8E8p1kHI_xWXxsqsi0J9Ka_ISYhOFHOgI9lvxV-6vN_dLGv7BLuYVqaZ-57dBFBKyqAY4g1NPw%3D%3D&year=${year}&semester=${semester}&type=${type}&option=programme&data=${programe}`).then((timetable)=>{
                 // console.log(timetable);
               
                 const $=cheerio.load(timetable.data);
