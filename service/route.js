@@ -136,12 +136,19 @@ router.get("/programmes/:year/:semester",(req,res)=>{
       axios.get(`
       https://ratiba.udom.ac.tz/index.php/downloads/data?_csrf-backend=zB-cS_yxG2p4CUZwu1IvGMzP4Efn1rOqXtr2TAOdI1a5TKQJjMVXIj9-D0D8NFh8lY6hGLGAi-Jtl8UJcPtFDA%3D%3D&year=${year}&semester=${semester}&type=1&option=programme&data%5B%5D=`).then((programmes)=>{
         const $=cheerio.load(programmes.data);
+        const colleges=[];
         const converted=$("select").find("option").map((index, element)=> {
-           
+           if($(element).val()!=""){
+                colleges.push(String($(element).text().split("-")[1]).trim())
+            }
            return {"name":String($(element).text().split("-")[0]).trim(),"value":$(element).val(),"college":String($(element).text().split("-")[1]).trim(),"year":String($(element).text().split("-")[0]).trim().charAt(String($(element).text().split("-")[0]).trim().length-1)}
         
         }).get()
-        res.json({"status":true,"message":"Success load programmes","programmes":converted.filter((item)=>item.value!="")})
+         const uniqueStringSet = new Set(colleges);
+
+// Convert the Set back to an array (if needed)
+         const uniqueStringList = [...uniqueStringSet];
+        res.json({"status":true,"colleges":uniqueStringList,"message":"Success load programmes","programmes":converted.filter((item)=>item.value!="")})
       });
     }
     catch (error){
