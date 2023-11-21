@@ -34,6 +34,7 @@ router.get("/:type/:programme/:semester/:year",(req,res)=>{
                             const time=sessionArray[0].split(",")[0];
                             const sessionType=sessionArray[0].split(",")[1].split("-")[1];
                             const course=sessionArray[0].split(",")[1].split("day")[1].split("-")[0];
+                            // console.log(`session course ${course}`)
                             sessionArray[0]=time;
                             sessionArray=sessionArray.map((value)=>{
                                 if(value.includes("Staff")){
@@ -55,9 +56,8 @@ router.get("/:type/:programme/:semester/:year",(req,res)=>{
                             
                                 sessionArray[0]=sessionArray[0];
                                 sessionArray[1]=sessionArray[1];
-                              
                                 sessionArray[3]=[[sessionArray[3],sessionArray[2]],[sessionArray[sessionArray.length-1],sessionArray[5]]];
-                                sessionArray[5]=sessionArray[4];
+                                sessionArray[5]=sessionArray[3];
                                 sessionArray[4]=sessionArray[sessionArray.length-2];
                                 sessionArray[4]="Lecture";
                                 sessionArray[2]="";
@@ -70,7 +70,7 @@ router.get("/:type/:programme/:semester/:year",(req,res)=>{
                             sessionArray.push(sessionType);
                             sessionArray.push(course);
                             sessionArray.length=6;
-                            
+                          
                             //create object
                             const json2={
                                 time:sessionArray[0],
