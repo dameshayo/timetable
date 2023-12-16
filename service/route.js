@@ -573,7 +573,7 @@ router.get(
       res.json({ success: true,error: null, sessions: allSessions });
     } catch (error) {
       // console.error("Error filtering sessions:", error);
-      res.status(500).json({success: false, error: "Internal Server Error" ,sessions:null});
+      res.status(500).json({success: false, error: `Internal Server Error ${error}` ,sessions:null});
     }
   }
 );
