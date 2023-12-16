@@ -518,7 +518,7 @@ router.get(
         const domain = endIndex !== -1 ? fullEndpoint.substring(0, endIndex) : fullEndpoint;
       // console.log("domain " + domain, fullEndpoint);
       const programsResponse = await axios.get(
-        `${domain}/app/api/programmes/${year}/${semester}`
+        `${domain}/app/api/programmes/10/3356`
       );
       
       const programs = programsResponse.data.programmes;
