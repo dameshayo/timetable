@@ -520,8 +520,9 @@ router.get(
       const programsResponse = await axios.get(
         `${domain}/app/api/programmes/${year}/${semester}`
       );
-
+      
       const programs = programsResponse.data.programmes;
+      res.json({ success: true,error: null, sessions: programs });
       const collegeNotProgrammes = programs.filter(
         (entry) => entry.college !== college
       );
