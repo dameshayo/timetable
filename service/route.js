@@ -540,7 +540,11 @@ router.get(
           const allSessions = [];
           response.data.data.forEach((day) => {
             Object.keys(day).forEach((dayKey) => {
-              allSessions.push(...day[dayKey]);
+                day[dayKey].forEach(session => {
+                // Add the "day" key to each session
+                const sessionWithDay = { ...session, day: dayKey };
+                allSessions.push(sessionWithDay);
+              });
             });
           });
           // console.log(`session response data ${allSessions}`);
