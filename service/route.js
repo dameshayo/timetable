@@ -543,7 +543,7 @@ router.get(
               allSessions.push(...day[dayKey]);
             });
           });
-          console.log(`session response data ${allSessions}`);
+          // console.log(`session response data ${allSessions}`);
           return allSessions.filter((session) =>
             venues.includes(session.venue)
           );
@@ -553,50 +553,22 @@ router.get(
               "Connection refused. Make sure the server is running and accessible."
             );
           } else {
-            console.error("Error fetching data:", error.message);
+            // console.error("Error fetching data:", error.message);
           }
         }
       });
-
-      // Wait for all session requests to complete
-
-      // Promise.all(sessionPromises)
-      // .then((results) => {
-      //   // 'results' is an array containing the resolved values of the promises
-      //   console.log(`session data: ${results}`);
-      // })
-      // .catch((error) => {
-      //   // Handle errors
-      //   console.error(error);
-      // });
       const sessionsArray = await Promise.all(sessionPromises);
-      // const matchingSessions = [];
-
-      // sessionsArray.data.forEach((day) => {
-      //   Object.keys(day).forEach((dayKey) => {
-      //     day[dayKey].forEach((session) => {
-      //       if (venues.includes(session.venue)) {
-      //         matchingSessions.push(session);
-      //       }
-      //     });
-      //   });
-      // });
-
-      //   // Flatten the array of sessions
-      //   const sessions = sessionsArray.flatMap((daySessions) =>
-      //     Object.values(daySessions).flat()
-      //   );
       const nonEmptySessions = sessionsArray.filter(
         (day) => Array.isArray(day) && day.length > 0
       );
 
       // Flatten the array to get a list of sessions
       const allSessions = nonEmptySessions.flat();
-      console.log(allSessions);
-      res.json({ success: true, sessions: allSessions });
+      // console.log(allSessions);
+      res.json({ success: true,error: null, sessions: allSessions });
     } catch (error) {
-      console.error("Error filtering sessions:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+      // console.error("Error filtering sessions:", error);
+      res.status(500).json({success: false, error: "Internal Server Error" ,sessions:null});
     }
   }
 );
