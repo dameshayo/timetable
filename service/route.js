@@ -543,6 +543,7 @@ router.get(
                 day[dayKey].forEach(session => {
                 // Add the "day" key to each session
                 const sessionWithDay = { ...session, day: dayKey };
+                   res.json({ success: true,error: null, sessions: sessionWithDay });
                 allSessions.push(sessionWithDay);
               });
             });
