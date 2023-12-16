@@ -522,7 +522,7 @@ router.get(
       );
       
       const programs = programsResponse.data.programmes;
-      res.json({ success: true,error: null, sessions: domain });
+      // res.json({ success: true,error: null, sessions: domain });
       const collegeNotProgrammes = programs.filter(
         (entry) => entry.college !== college
       );
