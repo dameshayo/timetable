@@ -518,7 +518,7 @@ router.get(
         const domain = endIndex !== -1 ? fullEndpoint.substring(0, endIndex) : fullEndpoint;
       // console.log("domain " + domain, fullEndpoint);
       const programsResponse = await axios.get(
-        `https://witty-coat-bass.cyclic.app/app/api/programmes/${year}/${semester}`
+        `https://calm-leather-jacket-slug.cyclic.app/app/api/programmes/${year}/${semester}`
       );
       
       const programs = programsResponse.data.programmes;
@@ -536,7 +536,7 @@ router.get(
         try {
           //   await delay(1000);
           const response = await axios.get(
-            `https://witty-coat-bass.cyclic.app/app/api/${type}/${programValue}/${year}/${semester}`
+            `https://calm-leather-jacket-slug.cyclic.app/app/api/${type}/${programValue}/${year}/${semester}`
           );
           const allSessions = [];
           response.data.data.forEach((day) => {
