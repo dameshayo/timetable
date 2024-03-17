@@ -401,7 +401,7 @@ router.get("/get_semesters/semesters/:year", (req, res) => {
       )
       .then((semesters) => {
         const $ = cheerio.load(semesters.data);
-        text = $($("option")[1]).val();
+        text = $($("option")[3]).val();
 
         console.log(text);
         res.json({ status: true, msg: "Success", value: text });
