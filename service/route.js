@@ -905,7 +905,33 @@ router.get("/ue_programmes/:year/:semester", (req, res) => {
   }
 });
 
-
+router.get("/ue_html_table/:type/:programme/:semester/:year", (req, res) => {
+  let type = req.params.type;
+  let programe = req.params.programme;
+  let semester = req.params.semester;
+  let year = req.params.year;
+  const json = [];
+  try {
+    axios
+      .get(`
+      https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=BNCNaLKewCqRrdtaeeaghNB4T1Qo55Pu-FYWiBrGzhFp4Mo-9KvxcvfAjDZBvpHO4AEoIni09oysLlrGdpCJdg%3D%3D&year=${year}&semester=${semester}&type=${type}&option=programme&data=${programe}`
+      )
+      .then((timetable) => {
+        // console.log(timetable);
+        res.json({
+          msg: "success",
+          data: timetable.data,
+        });
+      })
+      .catch((error) => {
+        res.json({ msg: "fail to load table" });
+        console.error({ error });
+      });
+  } catch (error) {
+    res.json({ msg: "fail to load table" });
+    console.log(error);
+  }
+});
 
 
 function delay(ms) {
