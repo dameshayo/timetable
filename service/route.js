@@ -635,11 +635,14 @@ router.get("/tests_table/:type/:programme/:semester/:year", (req, res) => {
   let semester = req.params.semester;
   let year = req.params.year;
   const json = [];
+  const timeout = 120000;
   try {
-    axios
+     const instance = axios.create({
+      timeout: timeout
+    });
+    instance
       .get(
-        `
-        https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=Dk4DJuyNuB9TeHgGPNFHImoZbHwZy7ZR3DGyU3HXRRNjfkRwqriJRzUVL2oEiXZoWmALCkmY0zOISf4dHYECdA%3D%3D&year=${year}&semester=${semester}&type=${type}&option=programme&data=${programe}`
+        `https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=Dk4DJuyNuB9TeHgGPNFHImoZbHwZy7ZR3DGyU3HXRRNjfkRwqriJRzUVL2oEiXZoWmALCkmY0zOISf4dHYECdA%3D%3D&year=${year}&semester=${semester}&type=${type}&option=programme&data=${programe}`
       )
       .then((timetable) => {
         // console.log(timetable);
