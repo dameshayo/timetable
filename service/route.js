@@ -635,103 +635,15 @@ router.get("/tests_table/:type/:programme/:semester/:year", (req, res) => {
   let semester = req.params.semester;
   let year = req.params.year;
   const json = [];
-  const timeout = 120000;
   try {
-     const instance = axios.create({
-      timeout: timeout
-    });
-    instance
+    axios
       .get(
         `https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=Dk4DJuyNuB9TeHgGPNFHImoZbHwZy7ZR3DGyU3HXRRNjfkRwqriJRzUVL2oEiXZoWmALCkmY0zOISf4dHYECdA%3D%3D&year=${year}&semester=${semester}&type=${type}&option=programme&data=${programe}`
       )
       .then((timetable) => {
-        // console.log(timetable);
-        const $ = cheerio.load(timetable.data);
-        const title = $("h4").text().split("-")[0];
-        const sessions = [];
-        const table = $(".responsive-sm");
-        for (let row = 0; row < table.find("tbody tr").length; row++) {
-          const session_day = $(
-            $(table.find("tbody tr")[row]).find("td")[0]
-          ).text();
-          const day = session_day.split(",")[0];
-          const date = session_day.split(",")[1].trim().replace(/\n/g, "");
-          // if (!containsNumbers(day)) {
-          for (
-            let column = 0;
-            column < table.find("tbody tr td").length;
-            column++
-          ) {
-            if (
-              $($(table.find("tbody tr")[row]).find("td")[column + 1])
-                .text()
-                .replaceAll(/\s/g, "") !== ""
-            ) {
-              const session = $(
-                $(table.find("tbody tr")[row]).find("td")[column + 1]
-              );
-              var [timeAndDay, coursePart] = session
-                .text()
-                .split("<br>")
-                .map((str) => str.trim());
-              const [time, actualDay] = timeAndDay
-                .split(", ")
-                .map((str) => str.trim());
-              const pattern = /\b[A-Z]+\s+\d+\b/;
-
-              // Match the pattern in the text
-              const match = actualDay.match(pattern);
-              // Extract the substring between "X" and "Sitting"
-              const result = match ? match[0] : null;
-              // Extract sitting information
-              coursePart = result;
-              const pattern2 = /Sitting: (.*?)(?=\[Total:)/;
-              const match2 = session.text().match(pattern2);
-              // Extract the substring
-              const result2 = match2 ? match2[1].trim() : null;
-              const sittingInfo = [];
-              for (let it = 0; it < result2.split(";").length; it++) {
-                const str = result2.split(";")[it];
-                const venue = str.substring(0, str.indexOf("(")).trim();
-                // Extracting the substring inside the parentheses
-                const programsStr = str.substring(
-                  str.indexOf("(") + 1,
-                  str.lastIndexOf(")")
-                );
-                // Splitting the substring into individual items
-                const programsArr = programsStr
-                  .split(",")
-                  .map((item) => item.trim());
-                const obj = {
-                  venue: venue,
-                  progs: programsArr,
-                };
-                sittingInfo.push(obj)
-              }
-              const total = session.text().match(/\[Total: (\d+)\]/)[1];
-
-              // Construct JSON object
-              const timetableJSON = {
-                time,
-                day,
-                date,
-                course:coursePart,
-                sitting: sittingInfo,
-                total: parseInt(total),
-              };
-
-              console.log(timetableJSON);
-              sessions.push(timetableJSON);
-            } else {
-              continue;
-            }
-          }
-        }
-
         res.json({
           msg: "success",
-          programme: title.replaceAll(/\\/g, "").trim(),
-          data: sessions,
+          data: timetable.data,
         });
       })
       .catch((error) => {
@@ -744,116 +656,6 @@ router.get("/tests_table/:type/:programme/:semester/:year", (req, res) => {
   }
 });
 
-router.get("/ue_table/:type/:programme/:semester/:year", (req, res) => {
-  let type = req.params.type;
-  let programe = req.params.programme;
-  let semester = req.params.semester;
-  let year = req.params.year;
-  const json = [];
-  try {
-    axios
-      .get(`
-      https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=BNCNaLKewCqRrdtaeeaghNB4T1Qo55Pu-FYWiBrGzhFp4Mo-9KvxcvfAjDZBvpHO4AEoIni09oysLlrGdpCJdg%3D%3D&year=${year}&semester=${semester}&type=${type}&option=programme&data=${programe}`
-      )
-      .then((timetable) => {
-        // console.log(timetable);
-        const $ = cheerio.load(timetable.data);
-        const title = $("h4").text().split("-")[0];
-        const sessions = [];
-        const table = $(".responsive-sm");
-        for (let row = 0; row < table.find("tbody tr").length; row++) {
-          const session_day = $(
-            $(table.find("tbody tr")[row]).find("td")[0]
-          ).text();
-          const day = session_day.split(",")[0];
-          const date = session_day.split(",")[1].trim().replace(/\n/g, "");
-          // if (!containsNumbers(day)) {
-          for (
-            let column = 0;
-            column < table.find("tbody tr td").length;
-            column++
-          ) {
-            if (
-              $($(table.find("tbody tr")[row]).find("td")[column + 1])
-                .text()
-                .replaceAll(/\s/g, "") !== ""
-            ) {
-              const session = $(
-                $(table.find("tbody tr")[row]).find("td")[column + 1]
-              );
-              var [timeAndDay, coursePart] = session
-                .text()
-                .split("<br>")
-                .map((str) => str.trim());
-              const [time, actualDay] = timeAndDay
-                .split(", ")
-                .map((str) => str.trim());
-              const pattern = /\b[A-Z]+\s+\d+\b/;
-
-              // Match the pattern in the text
-              const match = actualDay.match(pattern);
-              // Extract the substring between "X" and "Sitting"
-              const result = match ? match[0] : null;
-              // Extract sitting information
-              coursePart = result;
-              const pattern2 = /Sitting: (.*?)(?=\[Total:)/;
-              const match2 = session.text().match(pattern2);
-              // Extract the substring
-              const result2 = match2 ? match2[1].trim() : null;
-              const sittingInfo = [];
-              for (let it = 0; it < result2.split(";").length; it++) {
-                const str = result2.split(";")[it];
-                const venue = str.substring(0, str.indexOf("(")).trim();
-                // Extracting the substring inside the parentheses
-                const programsStr = str.substring(
-                  str.indexOf("(") + 1,
-                  str.lastIndexOf(")")
-                );
-                // Splitting the substring into individual items
-                const programsArr = programsStr
-                  .split(",")
-                  .map((item) => item.trim());
-                const obj = {
-                  venue: venue,
-                  progs: programsArr,
-                };
-                sittingInfo.push(obj)
-              }
-              const total = session.text().match(/\[Total: (\d+)\]/)[1];
-
-              // Construct JSON object
-              const timetableJSON = {
-                time,
-                day,
-                date,
-                course:coursePart,
-                sitting: sittingInfo,
-                total: parseInt(total),
-              };
-
-              console.log(timetableJSON);
-              sessions.push(timetableJSON);
-            } else {
-              continue;
-            }
-          }
-        }
-
-        res.json({
-          msg: "success",
-          programme: title.replaceAll(/\\/g, "").trim(),
-          data: sessions,
-        });
-      })
-      .catch((error) => {
-        res.json({ msg: "fail to load table" });
-        console.error({ error });
-      });
-  } catch (error) {
-    res.json({ msg: "fail to load table" });
-    console.log(error);
-  }
-});
 
 router.get("/ue_programmes/:year/:semester", (req, res) => {
   year = req.params.year;
