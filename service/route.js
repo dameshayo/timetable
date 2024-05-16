@@ -587,7 +587,7 @@ router.get("/tests_programmes/:year/:semester", (req, res) => {
   try {
     axios
       .get(
-        `https://ratiba.udom.ac.tz/index.php/downloads/data?_csrf-backend=Dk4DJuyNuB9TeHgGPNFHImoZbHwZy7ZR3DGyU3HXRRNjfkRwqriJRzUVL2oEiXZoWmALCkmY0zOISf4dHYECdA%3D%3D&year=${year}&semester=${semester}&type=2&option=programme&data%5B%5D=`
+        `https://ratiba.udom.ac.tz/index.php/downloads/data?_csrf-backend=Dk4DJuyNuB9TeHgGPNFHImoZbHwZy7ZR3DGyU3HXRRNjfkRwqriJRzUVL2oEiXZoWmALCkmY0zOISf4dHYECdA%3D%3D&year=${year}&semester=3358&type=2&option=programme&data%5B%5D=`
       )
       .then((programmes) => {
         const $ = cheerio.load(programmes.data);
@@ -638,7 +638,7 @@ router.get("/tests_table/:type/:programme/:semester/:year", (req, res) => {
   try {
     axios
       .get(
-        `https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=Dk4DJuyNuB9TeHgGPNFHImoZbHwZy7ZR3DGyU3HXRRNjfkRwqriJRzUVL2oEiXZoWmALCkmY0zOISf4dHYECdA%3D%3D&year=${year}&semester=${semester}&type=${type}&option=programme&data=${programe}`
+        `https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=Dk4DJuyNuB9TeHgGPNFHImoZbHwZy7ZR3DGyU3HXRRNjfkRwqriJRzUVL2oEiXZoWmALCkmY0zOISf4dHYECdA%3D%3D&year=${year}&semester=3358&type=${type}&option=programme&data=${programe}`
       )
       .then((timetable) => {
         res.json({
@@ -664,7 +664,7 @@ router.get("/ue_programmes/:year/:semester", (req, res) => {
   try {
     axios
       .get(
-        `https://ratiba.udom.ac.tz/index.php/downloads/data?_csrf-backend=JBC9AEzhvCdDKtD5ozPUMj42x3o5tjX296M-z4YvUTZJIPpWCtSNfyVHh5Wba-V4Dk-gDGnlUJSj23KB6nkWUQ%3D%3D&year=${year}&semester=${semester}&type=3&option=programme&data%5B%5D=`
+        `https://ratiba.udom.ac.tz/index.php/downloads/data?_csrf-backend=JBC9AEzhvCdDKtD5ozPUMj42x3o5tjX296M-z4YvUTZJIPpWCtSNfyVHh5Wba-V4Dk-gDGnlUJSj23KB6nkWUQ%3D%3D&year=${year}&semester=3358&type=3&option=programme&data%5B%5D=`
       )
       .then((programmes) => {
         const $ = cheerio.load(programmes.data);
@@ -716,7 +716,7 @@ router.get("/ue_html_table/:type/:programme/:semester/:year", (req, res) => {
   try {
     axios
       .get(`
-      https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=BNCNaLKewCqRrdtaeeaghNB4T1Qo55Pu-FYWiBrGzhFp4Mo-9KvxcvfAjDZBvpHO4AEoIni09oysLlrGdpCJdg%3D%3D&year=${year}&semester=${semester}&type=${type}&option=programme&data=${programe}`
+      https://ratiba.udom.ac.tz/index.php/downloads/view?_csrf-backend=BNCNaLKewCqRrdtaeeaghNB4T1Qo55Pu-FYWiBrGzhFp4Mo-9KvxcvfAjDZBvpHO4AEoIni09oysLlrGdpCJdg%3D%3D&year=${year}&semester=3358&type=${type}&option=programme&data=${programe}`
       )
       .then((timetable) => {
         // console.log(timetable);
